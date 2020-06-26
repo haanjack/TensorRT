@@ -30,7 +30,7 @@ ENV CUDA_PKG_VERSION 10-2=$CUDA_VERSION-1
 ENV CUDNN_VERSION 8.0.0.180
 LABEL com.nvidia.cudnn.version="${CUDNN_VERSION}"
 ENV NCCL_VERSION 2.5.6
-ENV TRT_VERSION 7.1.3-1
+ENV TRT_VERSION 7.1.3
 
 # Install requried libraries
 # RUN add-apt-repository ppa:ubuntu-toolchain-r/test
@@ -74,16 +74,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         libcublas-dev=10.2.2.89-1 \
         libcudnn8=$CUDNN_VERSION-1+cuda10.2 \
         libcudnn8-dev=$CUDNN_VERSION-1+cuda10.2 \
-        libnvinfer7=$TRT_VERSION+cuda10.2 \
-        libnvinfer-dev=$TRT_VERSION+cuda10.2 \
-        libnvinfer-plugin7=$TRT_VERSION+cuda10.2 \
-        libnvinfer-plugin-dev=$TRT_VERSION+cuda10.2 \
-        libnvparsers7=$TRT_VERSION+cuda10.2 \
-        libnvparsers-dev=$TRT_VERSION+cuda10.2 \
-        libnvonnxparsers7=$TRT_VERSION+cuda10.2 \
-        libnvonnxparsers-dev=$TRT_VERSION+cuda10.2 \
-        python3-libnvinfer=$TRT_VERSION+cuda10.2 \
-        python3-libnvinfer-dev=$TRT_VERSION+cuda10.2 \
+        libnvinfer7=$TRT_VERSION-1+cuda10.2 \
+        libnvinfer-dev=$TRT_VERSION-1+cuda10.2 \
+        libnvinfer-plugin7=$TRT_VERSION-1+cuda10.2 \
+        libnvinfer-plugin-dev=$TRT_VERSION-1+cuda10.2 \
+        libnvparsers7=$TRT_VERSION-1+cuda10.2 \
+        libnvparsers-dev=$TRT_VERSION-1+cuda10.2 \
+        libnvonnxparsers7=$TRT_VERSION-1+cuda10.2 \
+        libnvonnxparsers-dev=$TRT_VERSION-1+cuda10.2 \
+        python3-libnvinfer=$TRT_VERSION-1+cuda10.2 \
+        python3-libnvinfer-dev=$TRT_VERSION-1+cuda10.2 \
         && \
     apt-mark hold libcudnn8 && \
     apt-mark hold libnccl2 && \
