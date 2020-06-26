@@ -45,6 +45,8 @@ using namespace nvinfer1::plugin;
 #include "specialSlicePlugin/specialSlicePlugin.h"
 #include "instanceNormalizationPlugin/instanceNormalizationPlugin.h"
 
+#include "preluPlugin/preluPlugin.h"
+
 using nvinfer1::plugin::RPROIParams;
 
 namespace nvinfer1
@@ -167,6 +169,7 @@ bool initLibNvInferPlugins(void* logger, const char* libNamespace)
     initializePlugin<nvinfer1::plugin::ResizeNearestPluginCreator>(logger, libNamespace);
     initializePlugin<nvinfer1::plugin::SpecialSlicePluginCreator>(logger, libNamespace);
     initializePlugin<nvinfer1::plugin::InstanceNormalizationPluginCreator>(logger, libNamespace);
+    initializePlugin<nvinfer1::plugin::PReLUPluginCreator>(logger, libNamespace);
     return true;
 }
 } // extern "C"

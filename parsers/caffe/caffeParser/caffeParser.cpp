@@ -308,6 +308,40 @@ std::vector<nvinfer1::PluginField> CaffeParser::parseRPROIParam(const trtcaffe::
     return f;
 }
 
+std::vector<nvinfer1::PluginField> CaffeParser::parsePRELUParam(const trtcaffe::LayerParameter& msg, CaffeWeightFactory& weightFactory, BlobNameToTensor& tensors)
+{
+    std::vector<nvinfer1::PluginField> f;
+    const trtcaffe::PReLUParameter& p = msg.prelu_param();
+
+    int* channelShared = allocMemory<int32_t>();
+    *channelShared = p.channel_shared() ? 1 : 0;
+    f.emplace_back("channelShared", channelShared, PluginFieldType::kINT32, 1);
+
+    std::vector<Weights> w;
+    // If .caffemodel is not provided, need to randomize the weight
+    if (!weightFactory.isInitialized())
+    {
+        int C = parserutils::getCHW(tensors[msg.bottom(0)]->getDimensions()).c();
+        w.emplace_back(weightFactory.allocateWeights(C, std::normal_distribution<float>(0.0F, 1.0F)));
+    }
+    else
+    {
+        // Use the provided weight from .caffemodel
+        w = weightFactory.getAllWeights(msg.name());
+    }
+
+    for (auto weight : w)
+    {
+        f.emplace_back("weights", weight.values, PluginFieldType::kFLOAT32, weight.count);
+    }
+
+    int* nbWeights = allocMemory<int32_t>();
+    *nbWeights = w.size();
+    f.emplace_back("nbWeights", nbWeights, PluginFieldType::kINT32, 1);
+
+    return f;
+}
+
 const IBlobNameToTensor* CaffeParser::parseBuffers(const char* deployBuffer,
                                                    std::size_t deployLength,
                                                    const char* modelBuffer,
@@ -537,7 +571,12 @@ const IBlobNameToTensor* CaffeParser::parse(INetworkDefinition& network,
                     pluginName = "RPROI_TRT";
                     f = parseRPROIParam(layerMsg, weights, *mBlobNameToTensor);
                 }
-
+                else if (layerMsg.type() == "PReLU")
+                {
+                    pluginName = "PRELU_TRT";
+                    f = parsePRELUParam(layerMsg, weights, *mBlobNameToTensor);
+                }
+                
                 if (mPluginRegistry.find(pluginName) != mPluginRegistry.end())
                 {
                     // Set fc
