@@ -7,7 +7,7 @@ This repository contains the Open Source Software (OSS) components of NVIDIA Ten
 # TensorRT PReLU plugin enabled version
 
 **pre-requisite**
-You need to prepare your own ![openpose](https://github.com/CMU-Perceptual-Computing-Lab/openpose) `.caffemodel` and `deploy.prototext`.
+You need to prepare your own [openpose](https://github.com/CMU-Perceptual-Computing-Lab/openpose) `.caffemodel` and `deploy.prototext`.
 
 1. ## Generate the TensorRT build container.
    
