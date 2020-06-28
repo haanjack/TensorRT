@@ -1,4 +1,4 @@
-# geluPlugin
+# preluPlugin
 
 **Table Of Contents**
 - [Description](#description)
@@ -12,19 +12,23 @@
 
 ## Description
 
-This plugin applies the Gelu activation `x * Phi(x)`, where Phi is the Gaussian cdf, approximated by: `0.5 * (1 + tanh(sqrt(2 / M_PI) * (x + 0.044715 * x^3)))`.
-Optionally adds a bias vector before the activation.
+This plugin applies the Prelu activation with the following equation.
+
+$f(y_i)=\left\{\begin{matrix}
+y_i, & if \; y_i >  0 \\ 
+a_iy_i, & if \; y_i \leq 0
+\end{matrix}\right.$
 
 
 ### Structure
 
-The `geluPlugin` takes one input; `input`.
+The `preluPlugin` takes one input; `input`.
 
 `input`
 input is a tensor with shape `[S, B, E]` where `B` is the batch size.
 
 
-The `geluPlugin` generates the following output:
+The `preluPlugin` generates the following output:
 
 `output`
 output is a tensor with shape `[S, B, E]` where `B` is the batch size.
@@ -32,19 +36,19 @@ output is a tensor with shape `[S, B, E]` where `B` is the batch size.
 
 ## Parameters
 
-`geluPlugin` has plugin creator class `GeluPluginDynamicCreator` and plugin class `CustomGeluPluginDynamic`.
+`preluPlugin` has plugin creator class `PreluPluginCreator` and plugin class `PreluPlugin`.
 
 The parameters are defined below and consists of the following attributes:
 
 | Type     | Parameter                               | Description
 |----------|-----------------------------------------|-------------------------------------------------------------------
-|`int`     |`type_id`                                |Integer encoding the DataType (0: FP32, 1: FP16)
-|`Weights` |`bias`                                   |Optional bias parameter. Shape `[1, 1, E]`
-
+|`int`     |`nbWeights`                              | Number of Weights (supports only 1)
+|`bool`    |`channel_shared`                         | When `channelShared = false`, a single scale factor is used for all channels. When `channelShared = true`, scale factors are provided are normalized by the channel size.
+|`Weights` |`weights`                                | Slope parameters with [type, parameter memory pointer, number of elements]
 
 ## Additional resources
 
--   [GELU](https://arxiv.org/abs/1606.08415)
+-   [PRELU](https://arxiv.org/abs/1502.01852)
 
 
 ## License
@@ -55,10 +59,11 @@ documentation.
 
 ## Changelog
 
-November 2019
+June 2020
 This is the first release of this `README.md` file.
 
 
 ## Known issues
 
-This plugin only supports GPUs with compute capability >= 7.0. For more information see the [CUDA GPU Compute Capability Support Matrix](https://developer.nvidia.com/cuda-gpus#compute)
+Compatibility is not verified yet.
+~~This plugin only supports GPUs with compute capability >= 7.0. For more information see the [CUDA GPU Compute Capability Support Matrix](https://developer.nvidia.com/cuda-gpus#compute)~~
