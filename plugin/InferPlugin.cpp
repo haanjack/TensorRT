@@ -180,14 +180,7 @@ bool initLibNvInferPlugins(void* logger, const char* libNamespace)
     initializePlugin<nvinfer1::plugin::ResizeNearestPluginCreator>(logger, libNamespace);
     initializePlugin<nvinfer1::plugin::RPROIPluginCreator>(logger, libNamespace);
     initializePlugin<nvinfer1::plugin::SpecialSlicePluginCreator>(logger, libNamespace);
-<<<<<<< HEAD
-    initializePlugin<nvinfer1::plugin::InstanceNormalizationPluginCreator>(logger, libNamespace);
-    initializePlugin<nvinfer1::plugin::GenerateDetectionPluginCreator>(logger, libNamespace);
-    initializePlugin<nvinfer1::plugin::MultilevelProposeROIPluginCreator>(logger, libNamespace);
-    initializePlugin<nvinfer1::plugin::MultilevelCropAndResizePluginCreator>(logger, libNamespace);
-	initializePlugin<nvinfer1::plugin::PReLUPluginCreator>(logger, libNamespace);
-=======
->>>>>>> 3d72a9de68545da3c0a59e940beb0b32cbc09eca
+    initializePlugin<nvinfer1::plugin::PReLUPluginCreator>(logger, libNamespace);
     return true;
 }
 } // extern "C"
