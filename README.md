@@ -11,11 +11,11 @@ You need to prepare your own [openpose](https://github.com/CMU-Perceptual-Comput
 
 ### 1. Download TensorRT OSS sources.
 
-	```bash
-	git clone -b master https://github.com/haanjack/TensorRT TensorRT -b prelu_plugin
-	cd TensorRT
-	git submodule update --init --recursive
-	```
+    ```bash
+    git clone -b master https://github.com/haanjack/TensorRT TensorRT -b prelu_plugin
+    cd TensorRT
+    git submodule update --init --recursive
+    ```
 
 ### 2. Generate the TensorRT build container.
    
@@ -37,7 +37,7 @@ You need to prepare your own [openpose](https://github.com/CMU-Perceptual-Comput
    (in the container)
    ```bash
    mkdir build && cd build
-   cmake .. -DTRT_LIB_DIR=$TRT_RELEASE/lib -DTRT_BIN_DIR=`pwd`/out
+   cmake .. -DTRT_LIB_DIR=$(pwd)/lib -DTRT_OUT_DIR=$(pwd)/out
    make -j$(nproc)
    ```
 
@@ -52,7 +52,7 @@ You need to prepare your own [openpose](https://github.com/CMU-Perceptual-Comput
    You can build TensorRT engine and do the benchamrk with the following commands. You can specify your inference batch size and half precision. If you have Tensor Cores enabled GPUs or Tesla P100, it is recommended to try `--fp16` option.
 
    ```bash
-    LD_PRELOAD="out/libnvinfer_plugin.so.7.0.0:out/libnvcaffeparser.so.7.0.0" out/trtexec --deploy=/model/pose_deploy.prototxt --model=/model/pose_iter_584000.caffemodel --output=net_output --batch=<batch_size>  <--fp16>
+    LD_PRELOAD="out/libnvinfer_plugin.so:out/libnvcaffeparser.so" out/trtexec --deploy=/model/pose_deploy.prototxt --model=/model/pose_iter_584000.caffemodel --output=net_output --batch=<batch_size>  <--fp16>
    ```
 
 ### 2. Serialization of TensorRT engine and Deserialization
