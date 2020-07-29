@@ -27,7 +27,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # CUDA versions
 ENV CUDA_VERSION 10.2.89
 ENV CUDA_PKG_VERSION 10-2=$CUDA_VERSION-1
-ENV CUDNN_VERSION 8.0.0.180
+ENV CUDNN_VERSION 7.6.5.32
 LABEL com.nvidia.cudnn.version="${CUDNN_VERSION}"
 ENV NCCL_VERSION 2.5.6
 ENV TRT_VERSION 7.1.3
@@ -72,8 +72,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         cuda-minimal-build-$CUDA_PKG_VERSION \
         libnccl-dev=$NCCL_VERSION-1+cuda10.2 \
         libcublas-dev=10.2.2.89-1 \
-        libcudnn8=$CUDNN_VERSION-1+cuda10.2 \
-        libcudnn8-dev=$CUDNN_VERSION-1+cuda10.2 \
+        libcudnn7=$CUDNN_VERSION-1+cuda10.2 \
+        libcudnn7-dev=$CUDNN_VERSION-1+cuda10.2 \
         libnvinfer7=$TRT_VERSION-1+cuda10.2 \
         libnvinfer-dev=$TRT_VERSION-1+cuda10.2 \
         libnvinfer-plugin7=$TRT_VERSION-1+cuda10.2 \
